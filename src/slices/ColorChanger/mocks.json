@@ -1,0 +1,31 @@
+[
+	{
+		"__TYPE__": "SharedSliceContent",
+		"variation": "default",
+		"primary": {
+			"heading": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "heading2",
+						"content": {
+							"text": "Handle"
+						}
+					}
+				]
+			},
+			"description": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "paragraph",
+						"content": {
+							"text": "Laboris excepteur tempor deserunt ad ullamco. Consequat do officia pariatur reprehenderit quis nisi dolor enim enim laborum consectetur cupidatat incididunt commodo velit."
+						}
+					}
+				]
+			}
+		},
+		"items": []
+	}
+]
