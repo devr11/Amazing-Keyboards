@@ -1,11 +1,17 @@
-"use client"
+"use client";
 
 import { FC, useState } from "react";
 import { Content } from "@prismicio/client";
-import { PrismicRichText, PrismicText, SliceComponentProps } from "@prismicio/react";
+import {
+  PrismicRichText,
+  PrismicText,
+  SliceComponentProps,
+} from "@prismicio/react";
 import { Bounded } from "@/components/Bounded";
 import clsx from "clsx";
 import Image from "next/image";
+import { Canvas } from "@react-three/fiber";
+import { Scene } from "./Scene";
 
 export const KEYCAP_TEXTURES = [
   {
@@ -43,8 +49,6 @@ export const KEYCAP_TEXTURES = [
 
 type KeycapTexture = (typeof KEYCAP_TEXTURES)[number];
 
-
-
 /**
  * Props for `ColorChanger`.
  */
@@ -54,25 +58,40 @@ export type ColorChangerProps = SliceComponentProps<Content.ColorChangerSlice>;
  * Component for "ColorChanger" Slices.
  */
 const ColorChanger: FC<ColorChangerProps> = ({ slice }) => {
-
-  const [selectedTextureId, setSelectedTextureId] = useState(KEYCAP_TEXTURES[0].id);
+  const [selectedTextureId, setSelectedTextureId] = useState(
+    KEYCAP_TEXTURES[0].id,
+  );
   const [backgroundText, setBackgroundText] = useState(KEYCAP_TEXTURES[0].name);
   const [isAnimating, setIsAnimating] = useState(false);
 
-  function handleTextureSelect(texture: KeycapTexture){
+  function handleTextureSelect(texture: KeycapTexture) {
     if (isAnimating || texture.id === selectedTextureId) return;
 
     setSelectedTextureId(texture.id);
   }
 
+  const handleAnimationComplete = () => {
+    setIsAnimating(false);
+  };
+
   return (
     <section
       data-slice-type={slice.slice_type}
       data-slice-variation={slice.variation}
-      className="relative flex h-[90vh] min-h-[1000px] flex-col overflow-hidden bg-linear-to-br from-[#0f172a] to-[#062f4a] text-white"
+      className="relative flex h-[90vh] min-h-[900px] flex-col overflow-hidden bg-linear-to-br from-[#0f172a] to-[#062f4a] text-white"
     >
       {/* SVG background */}
       {/* Canvas */}
+      <Canvas
+        camera={{ position: [0, 0.5, 0.5], fov: 45, zoom: 1.7 }}
+        className="-mb-[10vh] grow"
+        shadows="soft"
+      >
+        <Scene
+          selectedTextureId={selectedTextureId}
+          onAnimationComplete={handleAnimationComplete}
+        />
+      </Canvas>
       <Bounded
         className="relative shrink-0"
         innerClassName="gap-6 lg:gap-8 flex flex-col lg:flex-row"
@@ -93,7 +112,10 @@ const ColorChanger: FC<ColorChangerProps> = ({ slice }) => {
                 onClick={() => handleTextureSelect(texture)}
                 className={clsx(
                   "flex aspect-square flex-col items-center justify-center rounded-lg border-2 p-4 hover:scale-105 motion-safe:transition-all motion-safe:duration-300",
-                  selectedTextureId === texture.id ? "border-[#81BFED] bg-[#81BFED]/20" : "cursor-pointer border-gray-300 hover:border-gray-500"
+                  selectedTextureId === texture.id
+                    ? "border-[#81BFED] bg-[#81BFED]/20"
+                    : "cursor-pointer border-gray-300 hover:border-gray-500",
+                  isAnimating && "pointer-events-none opacity-50",
                 )}
               >
                 <div className="mb-3 overflow-hidden rounded border-2 border-black bg-gray-200">
