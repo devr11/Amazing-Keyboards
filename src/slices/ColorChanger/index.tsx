@@ -90,9 +90,10 @@ const ColorChanger: FC<ColorChangerProps> = ({ slice }) => {
           {KEYCAP_TEXTURES.map((texture) => (
             <li key={texture.id}>
               <button
+                onClick={() => handleTextureSelect(texture)}
                 className={clsx(
                   "flex aspect-square flex-col items-center justify-center rounded-lg border-2 p-4 hover:scale-105 motion-safe:transition-all motion-safe:duration-300",
-                  // Handle selector texture
+                  selectedTextureId === texture.id ? "border-[#81BFED] bg-[#81BFED]/20" : "cursor-pointer border-gray-300 hover:border-gray-500"
                 )}
               >
                 <div className="mb-3 overflow-hidden rounded border-2 border-black bg-gray-200">
