@@ -7,41 +7,44 @@ import * as THREE from "three";
 type SceneProps = {
   selectedTextureId: string;
   onAnimationComplete: () => void;
-}
+};
 
 export function Scene({ selectedTextureId, onAnimationComplete }: SceneProps) {
-
   const texturePaths = KEYCAP_TEXTURES.map((texture) => texture.path);
   const textures = useTexture(texturePaths);
 
   const materials = useMemo(() => {
-    const materialMap: { [key:string]: THREE.MeshStandardMaterial } = {};
+    const materialMap: { [key: string]: THREE.MeshStandardMaterial } = {};
 
     KEYCAP_TEXTURES.forEach((texture, index) => {
-      const tex = Array.isArray(textures) ? textures[index] : textures
+      const tex = Array.isArray(textures) ? textures[index] : textures;
 
-      if(tex){
+      if (tex) {
         tex.flipY = false;
         tex.colorSpace = THREE.SRGBColorSpace;
 
         materialMap[texture.id] = new THREE.MeshStandardMaterial({
           map: tex,
-          roughness: .7
-        })
+          roughness: 0.7,
+        });
       }
-    })
+    });
 
     return materialMap;
-  },[textures])
+  }, [textures]);
 
-  const currentKnobColor = KEYCAP_TEXTURES.find((t) => t.id === selectedTextureId)?.knobColor || "#e24818";
-  
+  const currentKnobColor =
+    KEYCAP_TEXTURES.find((t) => t.id === selectedTextureId)?.knobColor ||
+    "#e24818";
+
   return (
     <Stage environment={"city"} intensity={0.05} shadows="contact">
-
-    <group>
-      <Keyboard keycapMaterial={materials[selectedTextureId]} knobColor={currentKnobColor} />
-    </group>
+      <group>
+        <Keyboard
+          keycapMaterial={materials[selectedTextureId]}
+          knobColor={currentKnobColor}
+        />
+      </group>
     </Stage>
-  )
+  );
 }
