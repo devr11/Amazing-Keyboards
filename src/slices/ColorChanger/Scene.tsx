@@ -32,6 +32,7 @@ export function Scene({ selectedTextureId, onAnimationComplete }: SceneProps) {
 
     return materialMap;
   }, [textures]);
+  
 
   const currentKnobColor =
     KEYCAP_TEXTURES.find((t) => t.id === selectedTextureId)?.knobColor ||
