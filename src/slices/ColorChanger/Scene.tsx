@@ -33,12 +33,14 @@ export function Scene({ selectedTextureId, onAnimationComplete }: SceneProps) {
 
     return materialMap;
   },[textures])
+
+  const currentKnobColor = KEYCAP_TEXTURES.find((t) => t.id === selectedTextureId)?.knobColor || "#e24818";
   
   return (
     <Stage environment={"city"} intensity={0.05} shadows="contact">
 
     <group>
-      <Keyboard keycapMaterial={materials[selectedTextureId]} />
+      <Keyboard keycapMaterial={materials[selectedTextureId]} knobColor={currentKnobColor} />
     </group>
     </Stage>
   )

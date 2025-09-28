@@ -153,7 +153,7 @@ export interface KeyboardRefs {
   keys: {
     [key: string]: React.RefObject<THREE.Mesh | null>;
   };
-
+    
   // Main container
   container: React.RefObject<THREE.Group | null>;
 }
@@ -333,7 +333,7 @@ export const Keyboard = forwardRef<KeyboardRefs, KeyboardProps>(
     const keycapMat = props.keycapMaterial || defaultKeycapMat;
 
     const knobMat = new THREE.MeshStandardMaterial({
-      color: "#e24818",
+      color: props.knobColor || "#e24818",
       roughness: 0.4,
       metalness: 1,
       bumpMap: knurlTexture,
