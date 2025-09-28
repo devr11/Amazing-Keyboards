@@ -242,7 +242,7 @@ export const Keyboard = forwardRef<KeyboardRefs, KeyboardProps>(
       pageup: useRef<THREE.Mesh>(null),
       caps: useRef<THREE.Mesh>(null),
       a: useRef<THREE.Mesh>(null),
-      s: useRef<THREE.Mesh>(null),
+      s: useRef<THREE.Mesh>(null ),
       d: useRef<THREE.Mesh>(null),
       f: useRef<THREE.Mesh>(null),
       g: useRef<THREE.Mesh>(null),
@@ -325,10 +325,12 @@ export const Keyboard = forwardRef<KeyboardRefs, KeyboardProps>(
     screenTexture.repeat.set(-1,-1)
     screenTexture.offset.set(1,1)
 
-    const keycapMat = new THREE.MeshStandardMaterial({
+    const defaultKeycapMat = new THREE.MeshStandardMaterial({
       roughness: 0.7,
       map: keycapTexture,
     });
+
+    const keycapMat = props.keycapMaterial || defaultKeycapMat;
 
     const knobMat = new THREE.MeshStandardMaterial({
       color: "#e24818",

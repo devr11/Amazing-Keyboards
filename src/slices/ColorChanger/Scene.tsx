@@ -18,15 +18,27 @@ export function Scene({ selectedTextureId, onAnimationComplete }: SceneProps) {
     const materialMap: { [key:string]: THREE.MeshStandardMaterial } = {};
 
     KEYCAP_TEXTURES.forEach((texture, index) => {
-      const tex = Array.isArray(textures)
+      const tex = Array.isArray(textures) ? textures[index] : textures
+
+      if(tex){
+        tex.flipY = false;
+        tex.colorSpace = THREE.SRGBColorSpace;
+
+        materialMap[texture.id] = new THREE.MeshStandardMaterial({
+          map: tex,
+          roughness: .7
+        })
+      }
     })
-  })
+
+    return materialMap;
+  },[textures])
   
   return (
     <Stage environment={"city"} intensity={0.05} shadows="contact">
 
     <group>
-      <Keyboard />
+      <Keyboard keycapMaterial={materials[selectedTextureId]} />
     </group>
     </Stage>
   )
