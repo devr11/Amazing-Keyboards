@@ -1,8 +1,12 @@
 import { Keyboard } from "@/components/Keyboard";
 import { Stage, useTexture } from "@react-three/drei";
 import { KEYCAP_TEXTURES } from ".";
-import { useMemo } from "react";
+import { useMemo, useRef } from "react";
 import * as THREE from "three";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+
+gsap.registerPlugin(useGSAP);
 
 type SceneProps = {
   selectedTextureId: string;
@@ -10,8 +14,26 @@ type SceneProps = {
 };
 
 export function Scene({ selectedTextureId, onAnimationComplete }: SceneProps) {
+  const keyboardRef = useRef<THREE.Group>(null);
   const texturePaths = KEYCAP_TEXTURES.map((texture) => texture.path);
   const textures = useTexture(texturePaths);
+
+  useGSAP(() => {
+    // Animate the keyboard
+
+    if (!keyboardRef.current) return;
+
+    const keyboard = keyboardRef.current;
+
+    const tl = gsap.timeline();
+
+    tl.to(keyboard.position, { y: 0.3, duration: 0.4, ease: "power2.out" });
+    tl.to(keyboard.position, {
+      y: 0,
+      duration: 0.6,
+      ease: "elastic.out(1,0.4)",
+    });
+  },[selectedTextureId]);
 
   const materials = useMemo(() => {
     const materialMap: { [key: string]: THREE.MeshStandardMaterial } = {};
@@ -32,7 +54,6 @@ export function Scene({ selectedTextureId, onAnimationComplete }: SceneProps) {
 
     return materialMap;
   }, [textures]);
-  
 
   const currentKnobColor =
     KEYCAP_TEXTURES.find((t) => t.id === selectedTextureId)?.knobColor ||
@@ -40,7 +61,7 @@ export function Scene({ selectedTextureId, onAnimationComplete }: SceneProps) {
 
   return (
     <Stage environment={"city"} intensity={0.05} shadows="contact">
-      <group>
+      <group ref={keyboardRef}>
         <Keyboard
           keycapMaterial={materials[selectedTextureId]}
           knobColor={currentKnobColor}
