@@ -17,24 +17,32 @@ export function Scene({ selectedTextureId, onAnimationComplete }: SceneProps) {
   const keyboardRef = useRef<THREE.Group>(null);
   const texturePaths = KEYCAP_TEXTURES.map((texture) => texture.path);
   const textures = useTexture(texturePaths);
-  const [currentTextureId, setCurrentTextureId] = useState(selectedTextureId)
+  const [currentTextureId, setCurrentTextureId] = useState(selectedTextureId);
 
   useGSAP(() => {
-    // Animate the keyboard
 
     if (!keyboardRef.current) return;
 
     const keyboard = keyboardRef.current;
 
-    const tl = gsap.timeline();
+    const tl = gsap.timeline({
+      onComplete: ()=>{
+        onAnimationComplete()
+      }
+    });
 
-    tl.to(keyboard.position, { y: 0.3, duration: 0.4, ease: "power2.out", onComplete: ()=>setCurrentTextureId(selectedTextureId) });
+    tl.to(keyboard.position, {
+      y: 0.3,
+      duration: 0.4,
+      ease: "power2.out",
+      onComplete: () => setCurrentTextureId(selectedTextureId),
+    });
     tl.to(keyboard.position, {
       y: 0,
       duration: 0.6,
       ease: "elastic.out(1,0.4)",
     });
-  },[selectedTextureId]);
+  }, [selectedTextureId]);
 
   const materials = useMemo(() => {
     const materialMap: { [key: string]: THREE.MeshStandardMaterial } = {};
