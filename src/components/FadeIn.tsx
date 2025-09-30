@@ -40,7 +40,7 @@ export function FadeIn({
       y: 0,
       ease: "power3.out",
       stagger: 0.2,
-      ...vars,j
+      ...vars,
       scrollTrigger: {
         trigger: containerRef.current,
         start
