@@ -4,13 +4,35 @@ import { Keyboard } from "@/components/Keyboard";
 import { Keycap } from "@/components/Keycap";
 import { useGSAP } from "@gsap/react";
 import { Environment, PerspectiveCamera } from "@react-three/drei";
+import { useThree } from "@react-three/fiber";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/all";
 import { useControls } from "leva";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
+
+
+function CameraController(){
+  const {camera, size} = useThree();
+  const mouseRef = useRef({x:0.5, y:0.5});
+
+  useEffect(()=>{
+    const handleMouseMove = (event: MouseEvent) => {
+      mouseRef.current.x = event.clientX / size.width;
+      mouseRef.current.x = event.clientX / size.width;
+    }
+
+    if(typeof window !== 'undefined'){
+      window.addEventListener('mousemove', handleMouseMove);
+    }
+
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, [size]);
+
+  return null;
+}
 
 const Scene = () => {
   const keyboardGroupRef = useRef<THREE.Group>(null);
@@ -99,7 +121,7 @@ const Scene = () => {
 
       <Environment
         files={["/hdr/blue-studio.hdr"]}
-        environmentIntensity={0.05 * lightIntensityScalar}
+        environmentIntensity={0.09 * lightIntensityScalar}
       />
 
       <spotLight
