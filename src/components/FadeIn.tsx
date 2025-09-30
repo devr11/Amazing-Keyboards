@@ -17,11 +17,11 @@ type FadeInProps = {
 };
 
 export function FadeIn({
-  start,
+  start="top 50%",
   className,
   children,
   targetChildren = false,
-  vars,
+  vars = {},
 }: FadeInProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -41,6 +41,10 @@ export function FadeIn({
       ease: "power3.out",
       stagger: 0.2,
       ...vars,
+      scrollTrigger: {
+        trigger: containerRef.current,
+        start
+      }
     });
   });
 
