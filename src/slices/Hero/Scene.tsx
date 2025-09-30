@@ -7,19 +7,34 @@ import { Environment, PerspectiveCamera } from "@react-three/drei";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/all";
 import { useControls } from "leva";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import * as THREE from "three";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 const Scene = () => {
   const keyboardGroupRef = useRef<THREE.Group>(null);
+  const [lightIntensityScalar, setLightIntensityScalar] = useState(0);
+
   const scalingFactor = window.innerWidth <= 500 ? 0.5 : 1;
 
   useGSAP(() => {
     if (!keyboardGroupRef.current) return;
 
     const keyboard = keyboardGroupRef.current;
+
+    gsap.to(
+      {lightIntensityScalar},
+      {lightIntensityScalar: 1,
+        duration: 3.5,
+        ease: "power2.inOut",
+        delay: 0.5,
+        onUpdate: function() {
+          setLightIntensityScalar(this.targets()[0].lightIntensityScalar);
+        }
+
+      }
+    )
 
     const tl = gsap.timeline({
       ease: "power2.inOut",
@@ -35,19 +50,20 @@ const Scene = () => {
       y: 0,
       z: 0,
       duration: 1.8,
-    })
+    }, "<")
     
     .to(keyboard.position, {
       x: 0.2,
       y: -0.5,
       z: 1.9,
       duration: 2,
+      delay: 0.5,
     }).to(keyboard.rotation, {
       x: 1.4,
       y: .4,
       z: 0,
       duration: 2,
-    })
+    }, "<")
   });
 
   return (
@@ -83,12 +99,12 @@ const Scene = () => {
 
       <Environment
         files={["/hdr/blue-studio.hdr"]}
-        environmentIntensity={0.05}
+        environmentIntensity={0.05 * lightIntensityScalar}
       />
 
       <spotLight
         position={[-2, 1.5, 3]}
-        intensity={30}
+        intensity={30 * lightIntensityScalar}
         castShadow
         shadow-bias={-0.0002}
         shadow-normalBias={0.002}
