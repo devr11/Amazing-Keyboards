@@ -16,6 +16,7 @@ gsap.registerPlugin(useGSAP, ScrollTrigger);
 function CameraController() {
   const { camera, size } = useThree();
   const mouseRef = useRef({ x: 0.5, y: 0.5 });
+  const targetRef = useRef(new THREE.Vector3(0, 0, 0));
 
   const baseCameraPosition = {
     x: 0,
@@ -34,12 +35,15 @@ function CameraController() {
       baseCameraPosition.y - tiltX,
       baseCameraPosition.z,
     );
+
+    camera.position.copy(targetPosition);
+    camera.lookAt(targetRef.current);
   });
 
   useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
       mouseRef.current.x = event.clientX / size.width;
-      mouseRef.current.x = event.clientX / size.width;
+      mouseRef.current.y = event.clientY / size.height;
     };
 
     if (typeof window !== "undefined") {
