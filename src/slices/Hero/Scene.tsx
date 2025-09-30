@@ -90,6 +90,7 @@ const Scene = () => {
 
   return (
     <group>
+      <CameraController />
       <PerspectiveCamera makeDefault position={[0, 0, 4]} fov={50} />
 
       <group scale={scalingFactor}>
