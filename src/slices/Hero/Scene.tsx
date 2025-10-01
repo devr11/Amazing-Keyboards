@@ -126,7 +126,6 @@ const Scene = () => {
             trigger: ".hero",
             start: "top top",
             end: "bottom bottom",
-            markers: true,
             scrub: 1,
           },
         });
