@@ -65,7 +65,6 @@ const Scene = () => {
 
   useGSAP(() => {
     if (!keyboardGroupRef.current) return;
-
     const keyboard = keyboardGroupRef.current;
 
     gsap.to(
