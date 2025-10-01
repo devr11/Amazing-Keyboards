@@ -17,6 +17,7 @@ function CameraController() {
   const { camera, size } = useThree();
   const mouseRef = useRef({ x: 0.5, y: 0.5 });
   const targetRef = useRef(new THREE.Vector3(0, 0, 0));
+  const currentPositionRef = useRef(new THREE.Vector3(0, 0, 4));
 
   const baseCameraPosition = {
     x: 0,
@@ -27,8 +28,8 @@ function CameraController() {
   useFrame(() => {
     const mouse = mouseRef.current;
 
-    const tiltX = mouse.y - 0.5;
-    const tiltY = mouse.x - 0.5;
+    const tiltX = (mouse.y - 0.5) * 0.3;
+    const tiltY = (mouse.x - 0.5) * 0.3;
 
     const targetPosition = new THREE.Vector3(
       baseCameraPosition.x + tiltY,
@@ -36,7 +37,8 @@ function CameraController() {
       baseCameraPosition.z,
     );
 
-    camera.position.copy(targetPosition);
+    currentPositionRef.current.lerp(targetPosition, 0.05);
+    camera.position.copy(currentPositionRef.current);
     camera.lookAt(targetRef.current);
   });
 
