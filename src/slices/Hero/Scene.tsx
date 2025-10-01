@@ -18,7 +18,7 @@ function CameraController() {
   const mouseRef = useRef({ x: 0.5, y: 0.5 });
   const targetRef = useRef(new THREE.Vector3(0, 0, 0));
   const currentPositionRef = useRef(new THREE.Vector3(0, 0, 4));
-
+console.log(camera)
   const baseCameraPosition = {
     x: 0,
     y: 0,
