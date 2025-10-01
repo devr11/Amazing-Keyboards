@@ -18,7 +18,7 @@ function CameraController() {
   const mouseRef = useRef({ x: 0.5, y: 0.5 });
   const targetRef = useRef(new THREE.Vector3(0, 0, 0));
   const currentPositionRef = useRef(new THREE.Vector3(0, 0, 4));
-console.log(camera)
+  console.log(camera);
   const baseCameraPosition = {
     x: 0,
     y: 0,
@@ -117,7 +117,36 @@ const Scene = () => {
           duration: 2,
         },
         "<",
-      );
+      )
+      .call(() => {
+        if (!keyboard) return;
+
+        const scrollTimeline = gsap.timeline({
+          scrollTrigger: {
+            trigger: ".hero",
+            start: "top top",
+            end: "bottom bottom",
+            markers: true,
+            scrub: 1,
+          },
+        });
+
+        scrollTimeline
+          .to(keyboard.position, {
+            x: 0,
+            y: -0.5,
+            z: 2.2,
+          })
+          .to(
+            keyboard.rotation,
+            {
+              x: Math.PI * -2 + 0.8,
+              y: 0,
+              z: 0,
+            },
+            "<",
+          );
+      });
   });
 
   return (
