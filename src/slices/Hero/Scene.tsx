@@ -28,8 +28,8 @@ function CameraController() {
   useFrame(() => {
     const mouse = mouseRef.current;
 
-    const tiltX = mouse.y - 0.5;
-    const tiltY = mouse.x - 0.5;
+    const tiltX = (mouse.y - 0.5) * 0.3;
+    const tiltY = (mouse.x - 0.5) * 0.3;
 
     const targetPosition = new THREE.Vector3(
       baseCameraPosition.x + tiltY,
