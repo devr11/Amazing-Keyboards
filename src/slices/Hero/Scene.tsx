@@ -1,6 +1,6 @@
 "use client";
 
-import { Keyboard } from "@/components/Keyboard";
+import { Keyboard, KeyboardRefs } from "@/components/Keyboard";
 import { Keycap } from "@/components/Keycap";
 import { useGSAP } from "@gsap/react";
 import { Environment, PerspectiveCamera } from "@react-three/drei";
@@ -60,7 +60,9 @@ function CameraController() {
 const Scene = () => {
   const keyboardGroupRef = useRef<THREE.Group>(null);
   const keycapRef = useRef<THREE.Group>(null);
+  const keyboardAnimationRef = useRef<KeyboardRefs>
   const [lightIntensityScalar, setLightIntensityScalar] = useState(0);
+
 
   const scalingFactor = window.innerWidth <= 500 ? 0.5 : 1;
 
@@ -167,7 +169,7 @@ const Scene = () => {
 
       <group scale={scalingFactor}>
         <group ref={keyboardGroupRef}>
-          <Keyboard scale={9} />
+          <Keyboard scale={9} ref={keyboardAnimationRef} />
         </group>
 
         <group ref={keycapRef}>
