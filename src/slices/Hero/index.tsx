@@ -8,9 +8,9 @@ import { Canvas } from "@react-three/fiber";
 import Scene from "./Scene";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import { SplitText } from "gsap/all";
+import { ScrollTrigger, SplitText } from "gsap/all";
 
-gsap.registerPlugin(useGSAP, SplitText);
+gsap.registerPlugin(useGSAP, SplitText, ScrollTrigger);
 
 /**
  * Props for `Hero`.
@@ -41,15 +41,33 @@ const Hero: FC<HeroProps> = ({ slice }) => {
       duration: 0.6,
       ease: "power2.out",
     });
+
+    gsap.fromTo(
+      ".hero-scene",
+      {
+        background:
+          "linear-gradient(to bottom, #000000, #0f172a, #062f4a, #7fa0b9)",
+      },
+      {
+        background:
+          "linear-gradient(to bottom, #ffffff, #ffffff, #ffffff, #ffffff)",
+        scrollTrigger: {
+          trigger: ".hero",
+          start: "top top",
+          end: "50% bottom",
+          scrub: 1,
+        },
+      },
+    );
   });
 
   return (
     <section
       data-slice-type={slice.slice_type}
       data-slice-variation={slice.variation}
-      className="hero blue-gradient-bg relative h-dvh text-white text-shadow-black/40 text-shadow-lg motion-safe:h-[450vh]"
+      className="hero relative h-dvh text-white text-shadow-black/40 text-shadow-lg motion-safe:h-[300vh]"
     >
-      <div className="pointer-events-none sticky top-0 h-dvh w-full">
+      <div className="hero-scene pointer-events-none sticky top-0 h-dvh w-full">
         <Canvas shadows="soft">
           <Scene />
         </Canvas>
