@@ -28,8 +28,8 @@ function CameraController() {
   useFrame(() => {
     const mouse = mouseRef.current;
 
-    const tiltX = (mouse.y - 0.5) * 0.3;
-    const tiltY = (mouse.x - 0.5) * 0.3;
+    const tiltX = mouse.y - 0.5;
+    const tiltY = mouse.x - 0.5;
 
     const targetPosition = new THREE.Vector3(
       baseCameraPosition.x + tiltY,
@@ -120,7 +120,7 @@ const Scene = () => {
         "<",
       )
       .call(() => {
-        const keycaps = keycapRef.current
+        const keycaps = keycapRef.current;
         if (!keyboard || !keycaps) return;
 
         const scrollTimeline = gsap.timeline({
@@ -146,12 +146,17 @@ const Scene = () => {
               z: 0,
             },
             "<",
-          ).to(keycaps.scale, {
-            x: 5,
-            y: 5,
-            z: 5,
-            duration: 3
-          }, "<")
+          )
+          .to(
+            keycaps.scale,
+            {
+              x: 5,
+              y: 5,
+              z: 5,
+              duration: 3,
+            },
+            "<",
+          );
       });
   });
 
