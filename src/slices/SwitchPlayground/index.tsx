@@ -1,6 +1,12 @@
 import { FC } from "react";
-import { Content } from "@prismicio/client";
-import { SliceComponentProps } from "@prismicio/react";
+import { Content, isFilled } from "@prismicio/client";
+import {
+  PrismicRichText,
+  PrismicText,
+  SliceComponentProps,
+} from "@prismicio/react";
+import { Bounded } from "@/components/Bounded";
+import { FadeIn } from "@/components/FadeIn";
 
 /**
  * Props for `SwitchPlayground`.
@@ -13,42 +19,46 @@ export type SwitchPlaygroundProps =
  */
 const SwitchPlayground: FC<SwitchPlaygroundProps> = ({ slice }) => {
   return (
-    <section
+    <Bounded
       data-slice-type={slice.slice_type}
       data-slice-variation={slice.variation}
+      className="relative"
+      innerClassName="flex flex-col justify-center"
     >
-      Placeholder component for switch_playground (variation: {slice.variation})
-      slices.
-      <br />
-      <strong>You can edit this slice directly in your code editor.</strong>
-      {/**
-       * 💡 Use Prismic MCP with your code editor
-       *
-       * Get AI-powered help to build your slice components — based on your actual model.
-       *
-       * ▶️ Setup:
-       * 1. Add a new MCP Server in your code editor:
-       *
-       * {
-       *   "mcpServers": {
-       *     "Prismic MCP": {
-       *       "command": "npx",
-       *       "args": ["-y", "@prismicio/mcp-server@latest"]
-       *     }
-       *   }
-       * }
-       *
-       * 2. Select a model optimized for coding (e.g. Claude 3.7 Sonnet or similar)
-       *
-       * ✅ Then open your slice file and ask your code editor:
-       *    "Code this slice"
-       *
-       * Your code editor reads your slice model and helps you code faster ⚡
-       * 🎙️ Give your feedback: https://community.prismic.io/t/help-us-shape-the-future-of-slice-creation/19505
-       * 📚 Documentation: https://prismic.io/docs/ai#code-with-prismics-mcp-server
-       */}
-    </section>
+      <FadeIn>
+        <h2 className="font-bold-slanted scroll-pt-6 text-6xl uppercase md:text-8xl">
+          <PrismicText field={slice.primary.heading} />
+        </h2>
+
+        <div className="mb-6 max-w-4xl text-xl text-pretty">
+
+        <PrismicRichText field={slice.primary.description} />
+        </div>
+
+        <FadeIn targetChildren className="grid grid-cols-1 gap-4 overflow-hidden sm:grid-cols-2">
+
+        {slice.primary.switches.map((item) =>
+          isFilled.contentRelationship(item.switch) ? (
+            <SharedCanvas key={item.switch.id} color={item.switch} />
+          ) : null,
+        )}
+        </FadeIn>
+      </FadeIn>
+    </Bounded>
   );
 };
 
 export default SwitchPlayground;
+
+
+type SharedCanvasProps = {
+  color: Content.SwitchPlaygroundSliceDefaultPrimarySwitchesItem["switch"]
+}
+
+const SharedCanvas = ({color}: SharedCanvasProps) => {
+  if(!isFilled.contentRelationship(color) || !color.data) return null;
+
+
+  const colorName = color.uid as "red" | "brown" | "blue" | "black";
+  const {color: hexColor, name} = color.data
+}
