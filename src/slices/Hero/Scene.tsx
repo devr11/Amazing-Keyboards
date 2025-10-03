@@ -334,7 +334,7 @@ const Scene = () => {
                   waveStartTime + 0.2, // Slight delay
                 );
 
-                // Down phase
+                // Down phase.
                 scrollTimeline.to(
                   switchPositions,
                   {

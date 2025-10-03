@@ -11,12 +11,12 @@ import clsx from "clsx";
 import { FadeIn } from "@/components/FadeIn";
 
 /**
- * Props for `BentoBox`.
+ * Props for `BentoBox`
  */
 export type BentoBoxProps = SliceComponentProps<Content.BentoBoxSlice>;
 
 /**
- * Component for "BentoBox" Slices.
+ * Component for "BentoBox" Slices
  */
 const BentoBox: FC<BentoBoxProps> = ({ slice }) => {
   return (

@@ -13,12 +13,12 @@ import { ScrollTrigger, SplitText } from "gsap/all";
 gsap.registerPlugin(useGSAP, SplitText, ScrollTrigger);
 
 /**
- * Props for `Hero`.
+ * Props for `Hero`
  */
 export type HeroProps = SliceComponentProps<Content.HeroSlice>;
 
 /**
- * Component for "Hero" Slices.
+ * Component for "Hero" Slices
  */
 const Hero: FC<HeroProps> = ({ slice }) => {
   useGSAP(() => {
