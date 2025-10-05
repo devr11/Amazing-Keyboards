@@ -1,0 +1,41 @@
+[
+	{
+		"__TYPE__": "SharedSliceContent",
+		"variation": "default",
+		"primary": {
+			"eyebrow": {
+				"__TYPE__": "FieldContent",
+				"value": "gravity",
+				"type": "Text"
+			},
+			"heading": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "heading2",
+						"content": {
+							"text": "Hollow"
+						}
+					}
+				]
+			},
+			"button_text": {
+				"__TYPE__": "FieldContent",
+				"value": "feet",
+				"type": "Text"
+			},
+			"body": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "paragraph",
+						"content": {
+							"text": "Pariatur est consectetur ipsum. Velit id aliquip aliqua Lorem commodo mollit do sint ex laboris."
+						}
+					}
+				]
+			}
+		},
+		"items": []
+	}
+]

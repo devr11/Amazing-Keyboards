@@ -32,19 +32,22 @@ const Marquee: FC<MarqueeProps> = ({ slice }) => {
       data-slice-type={slice.slice_type}
       data-slice-variation={slice.variation}
     >
-      <div className="flex">
+      <div className="relative flex w-full overflow-hidden items-center select-none" aria-hidden='true' role="presentation">
+
+      <div className="flex relative items-center whitespace-nowrap">
         <div
           className={clsx(
             "marquee-track animate-marquee flex",
             slice.primary.direction == "Right" &&
-              "[animation-direction:reverse]",
+            "[animation-direction:reverse]",
           )}
-        >
+          >
           {/* Content to duplicate */}
           <MarqueeContent />
           <MarqueeContent />
           <MarqueeContent />
           <MarqueeContent />
+          </div>
         </div>
       </div>
     </section>
