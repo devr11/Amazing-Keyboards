@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { FC, useState } from "react";
 import { Content } from "@prismicio/client";
@@ -11,6 +11,7 @@ import { Bounded } from "@/components/Bounded";
 import { FadeIn } from "@/components/FadeIn";
 import clsx from "clsx";
 import { LuChevronRight, LuLoader } from "react-icons/lu";
+import { checkout } from "@/checkout";
 
 /**
  * Props for `PurchaseButton`.
@@ -26,8 +27,7 @@ const PurchaseButton: FC<PurchaseButtonProps> = ({ slice }) => {
 
   const handlePurchaseClick = async () => {
     setIsPressed(true);
-    // TODO: add checkout logic later
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    await checkout()
     setIsPressed(false);
   };
   return (
@@ -74,11 +74,9 @@ const PurchaseButton: FC<PurchaseButtonProps> = ({ slice }) => {
             </span>
 
             {!isPressed && (
-
-              
               <div className="hidden group-hover:translate-x-2 group-hover:scale-125 motion-safe:transition-all motion-safe:duration-300 md:block">
-              <LuChevronRight className="size-12 text-gray-900 md:size-16" />
-            </div>
+                <LuChevronRight className="size-12 text-gray-900 md:size-16" />
+              </div>
             )}
           </div>
         </button>
