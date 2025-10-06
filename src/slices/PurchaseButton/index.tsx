@@ -64,8 +64,8 @@ const PurchaseButton: FC<PurchaseButtonProps> = ({ slice }) => {
           <div className="relative z-10 flex items-center justify-center gap-6 md:gap-8">
             <span className="font-black-slanted text-4xl tracking-wide text-gray-900 uppercase group-hover:-translate-y-1 motion-safe:transition-transform motion-safe:duration-300 md:text-7xl lg:text-9xl">
               {isPressed ? (
-                <span>
-                  <LuLoader />
+                <span className="flex items-center gap-4 md:gap-6">
+                  <LuLoader className="size-12 animate-spin text-gray-900 md:size-16" />
                   Loading...
                 </span>
               ) : (
