@@ -9,13 +9,10 @@ import {
   LuPackageOpen,
 } from "react-icons/lu";
 import Stripe from "stripe";
-
-import { Logo } from "@/components/Logo";
 import { FadeIn } from "@/components/FadeIn";
+import { Logo } from "@/components/Logo";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2025-07-30.basil",
-});
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 export const metadata: Metadata = {
   title: "Order Confirmation | Nimbus Keyboards",
