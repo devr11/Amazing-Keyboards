@@ -141,6 +141,71 @@ export type HomepageDocument<Lang extends string = string> =
   >;
 
 /**
+ * Content for Products documents
+ */
+interface ProductsDocumentData {
+  /**
+   * Name field in *Products*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: products.name
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  name: prismic.KeyTextField;
+
+  /**
+   * Price (cents) field in *Products*
+   *
+   * - **Field Type**: Number
+   * - **Placeholder**: *None*
+   * - **API ID Path**: products.price
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/number
+   */
+  price: prismic.NumberField;
+
+  /**
+   * Image field in *Products*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: products.image
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/image
+   */
+  image: prismic.ImageField<never>;
+
+  /**
+   * Description field in *Products*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: products.description
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  description: prismic.RichTextField;
+}
+
+/**
+ * Products document from Prismic
+ *
+ * - **API ID**: `products`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/content-modeling
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type ProductsDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithUID<
+    Simplify<ProductsDocumentData>,
+    "products",
+    Lang
+  >;
+
+/**
  * Content for Switch documents
  */
 interface SwitchDocumentData {
@@ -179,7 +244,10 @@ interface SwitchDocumentData {
 export type SwitchDocument<Lang extends string = string> =
   prismic.PrismicDocumentWithUID<Simplify<SwitchDocumentData>, "switch", Lang>;
 
-export type AllDocumentTypes = HomepageDocument | SwitchDocument;
+export type AllDocumentTypes =
+  | HomepageDocument
+  | ProductsDocument
+  | SwitchDocument;
 
 /**
  * Item in *BentoBox → Default → Primary → Items*
@@ -641,6 +709,8 @@ declare module "@prismicio/client" {
       HomepageDocument,
       HomepageDocumentData,
       HomepageDocumentDataSlicesSlice,
+      ProductsDocument,
+      ProductsDocumentData,
       SwitchDocument,
       SwitchDocumentData,
       AllDocumentTypes,
