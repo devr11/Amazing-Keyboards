@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, Suspense } from "react";
+import { act, FC, Suspense, useEffect, useRef, useState } from "react";
 import { Content } from "@prismicio/client";
 import { PrismicRichText, SliceComponentProps } from "@prismicio/react";
 import { Bounded } from "@/components/Bounded";
@@ -10,8 +10,36 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger, SplitText } from "gsap/all";
 import { Loader } from "@/components/Loader";
+import { useProgress } from "@react-three/drei";
+import { checkout } from "@/checkout";
+import clsx from "clsx";
 
 gsap.registerPlugin(useGSAP, SplitText, ScrollTrigger);
+
+function LoaderWrapper() {
+  const { active } = useProgress();
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    if (active) {
+      setIsLoading(true);
+    } else {
+      const timer = setTimeout(() => setIsLoading(false), 100);
+      return () => clearTimeout(timer);
+    }
+  }, [active]);
+
+  return (
+    <div
+      className={clsx(
+        "motion-safe:transition-opacity motion-safe:duration-700",
+        isLoading ? "opacity-100" : "pointer-events-none opacity-0",
+      )}
+    >
+      <Loader />
+    </div>
+  );
+}
 
 /**
  * Props for `Hero`
@@ -22,6 +50,14 @@ export type HeroProps = SliceComponentProps<Content.HeroSlice>;
  * Component for "Hero" Slices
  */
 const Hero: FC<HeroProps> = ({ slice }) => {
+  const button = useRef<HTMLButtonElement>(null);
+
+  async function handleCheckout() {
+    if (button.current) button.current.disabled = true;
+    await checkout();
+    if (button.current) button.current.disabled = false;
+  }
+
   useGSAP(() => {
     const split = SplitText.create(".hero-heading", {
       type: "chars, lines",
@@ -71,12 +107,11 @@ const Hero: FC<HeroProps> = ({ slice }) => {
       <div className="hero-scene pointer-events-none sticky top-0 h-dvh w-full">
         <Canvas shadows="soft">
           <Suspense fallback={null}>
-
-          <Scene />
+            <Scene />
           </Suspense>
         </Canvas>
       </div>
-        <Loader/>
+      <LoaderWrapper />
 
       <div className="hero-content absolute inset-x-0 top-0 h-dvh">
         <Bounded
@@ -112,7 +147,10 @@ const Hero: FC<HeroProps> = ({ slice }) => {
               }}
             />
           </div>
-          <button className="font-bold-slanted group flex w-fit cursor-pointer items-center gap-1 rounded bg-[#01A7E1] px-3 py-1 text-2xl uppercase transition disabled:grayscale">
+          <button
+            onClick={handleCheckout}
+            className="font-bold-slanted group flex w-fit cursor-pointer items-center gap-1 rounded bg-[#01A7E1] px-3 py-1 text-2xl uppercase transition disabled:grayscale"
+          >
             {slice.primary.buy_button_text}
             <span className="transition group-hover:translate-x-1">{">"}</span>
           </button>
