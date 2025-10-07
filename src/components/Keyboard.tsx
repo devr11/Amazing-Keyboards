@@ -153,7 +153,7 @@ export interface KeyboardRefs {
   keys: {
     [key: string]: React.RefObject<THREE.Mesh | null>;
   };
-    
+
   // Main container
   container: React.RefObject<THREE.Group | null>;
 }
@@ -242,7 +242,7 @@ export const Keyboard = forwardRef<KeyboardRefs, KeyboardProps>(
       pageup: useRef<THREE.Mesh>(null),
       caps: useRef<THREE.Mesh>(null),
       a: useRef<THREE.Mesh>(null),
-      s: useRef<THREE.Mesh>(null ),
+      s: useRef<THREE.Mesh>(null),
       d: useRef<THREE.Mesh>(null),
       f: useRef<THREE.Mesh>(null),
       g: useRef<THREE.Mesh>(null),
@@ -312,7 +312,7 @@ export const Keyboard = forwardRef<KeyboardRefs, KeyboardProps>(
     keycapTexture.flipY = false;
     keycapTexture.colorSpace = THREE.SRGBColorSpace;
 
-    const knurlTexture = useTexture("/knurl.jpg");
+    const knurlTexture = useTexture("/Knurl.jpg");
     knurlTexture.flipY = false;
 
     knurlTexture.repeat.set(6, 6);
@@ -322,8 +322,8 @@ export const Keyboard = forwardRef<KeyboardRefs, KeyboardProps>(
     const screenTexture = useTexture("/screen_uv.png");
     screenTexture.flipY = false;
 
-    screenTexture.repeat.set(-1,-1)
-    screenTexture.offset.set(1,1)
+    screenTexture.repeat.set(-1, -1);
+    screenTexture.offset.set(1, 1);
 
     const defaultKeycapMat = new THREE.MeshStandardMaterial({
       roughness: 0.7,
