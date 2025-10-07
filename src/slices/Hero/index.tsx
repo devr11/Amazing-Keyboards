@@ -1,6 +1,6 @@
 "use client";
 
-import { FC } from "react";
+import { FC, Suspense } from "react";
 import { Content } from "@prismicio/client";
 import { PrismicRichText, SliceComponentProps } from "@prismicio/react";
 import { Bounded } from "@/components/Bounded";
@@ -9,6 +9,7 @@ import Scene from "./Scene";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger, SplitText } from "gsap/all";
+import { Loader } from "@/components/Loader";
 
 gsap.registerPlugin(useGSAP, SplitText, ScrollTrigger);
 
@@ -69,8 +70,12 @@ const Hero: FC<HeroProps> = ({ slice }) => {
     >
       <div className="hero-scene pointer-events-none sticky top-0 h-dvh w-full">
         <Canvas shadows="soft">
+          <Suspense fallback={null}>
+
           <Scene />
+          </Suspense>
         </Canvas>
+        <Loader/>
       </div>
 
       <div className="hero-content absolute inset-x-0 top-0 h-dvh">
