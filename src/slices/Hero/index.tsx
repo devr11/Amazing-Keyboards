@@ -75,8 +75,8 @@ const Hero: FC<HeroProps> = ({ slice }) => {
           <Scene />
           </Suspense>
         </Canvas>
-        <Loader/>
       </div>
+        <Loader/>
 
       <div className="hero-content absolute inset-x-0 top-0 h-dvh">
         <Bounded

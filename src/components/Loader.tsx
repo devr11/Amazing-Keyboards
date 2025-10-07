@@ -1,6 +1,41 @@
+"use client";
+
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { useRef } from "react";
+
+gsap.registerPlugin(useGSAP);
+
 export function Loader() {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(
+    () => {
+      const tl = gsap.timeline({ repeat: -1, repeatDelay: 1 });
+
+      tl.to(".keycap", {
+        y: "15%",
+        duration: 0.5,
+        ease: "power2.out",
+        stagger: 0.2,
+      }).to(
+        ".keycap",
+        {
+          y: 0,
+          duration: 0.25,
+          ease: "bounce.out",
+          stagger: 0.2,
+        },
+      );
+    },
+    { scope: containerRef },
+  );
+
   return (
-    <div>
+    <div
+      ref={containerRef}
+      className="blue-gradient-bg fixed inset-0 z-[100] flex h-full w-full flex-col items-center justify-center gap-6"
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         className="h-12 w-auto"
